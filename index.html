@@ -1,1 +1,67 @@
-<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>小马哥股票分析助手</title><link rel="stylesheet" href="style.css"><div class="wrap"><h1>📈 小马哥股票分析助手 V1.0</h1><div class="card"><input id=name placeholder=股票名称><input id=code placeholder=股票代码><input id=price type=number placeholder=当前价格><input id=ma20 type=number placeholder=MA20><input id=high type=number placeholder=历史最高价><input id=low type=number placeholder=历史最低价><input id=buy type=number placeholder=买入价><input id=qty type=number placeholder=股数><button onclick=analyze()>开始分析</button></div><div class=card><pre id=result>等待分析...</pre></div></div><script src="script.js"></script></html>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Stock AI V1.1 - 小马哥股票分析助手</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="hero">
+      <p class="tag">Stock AI · V1.1 Beta</p>
+      <h1>📈 小马哥股票分析助手</h1>
+      <p class="sub">基于大位置、小位置、MA20 / MA30 / MA60、盈亏和风险评分的股票分析工具。</p>
+    </header>
+
+    <section class="grid">
+      <div class="card">
+        <h2>股票信息</h2>
+        <label>股票名称<input id="name" placeholder="例如：贵州茅台"></label>
+        <label>股票代码<input id="code" placeholder="例如：600519"></label>
+      </div>
+
+      <div class="card">
+        <h2>价格信息</h2>
+        <label>当前价格<input id="price" type="number" step="0.01"></label>
+        <label>MA20<input id="ma20" type="number" step="0.01"></label>
+        <label>MA30<input id="ma30" type="number" step="0.01"></label>
+        <label>MA60<input id="ma60" type="number" step="0.01"></label>
+        <label>历史最高价<input id="high" type="number" step="0.01"></label>
+        <label>历史最低价<input id="low" type="number" step="0.01"></label>
+      </div>
+
+      <div class="card">
+        <h2>持仓信息</h2>
+        <label>买入价<input id="buy" type="number" step="0.01"></label>
+        <label>股数<input id="qty" type="number" step="1"></label>
+        <button id="analyzeBtn">开始分析</button>
+        <button id="resetBtn" class="ghost">清空数据</button>
+      </div>
+    </section>
+
+    <section class="resultPanel">
+      <div class="scoreCard">
+        <p>综合评分</p>
+        <strong id="score">--</strong>
+        <span id="scoreText">等待分析</span>
+      </div>
+
+      <div class="miniGrid">
+        <div class="mini"><span>大位置</span><b id="bigPos">--</b></div>
+        <div class="mini"><span>小位置</span><b id="smallPos">--</b></div>
+        <div class="mini"><span>趋势</span><b id="trend">--</b></div>
+        <div class="mini"><span>风险</span><b id="risk">--</b></div>
+      </div>
+
+      <div class="card">
+        <h2>🤖 AI 综合分析</h2>
+        <pre id="result">等待分析...</pre>
+      </div>
+    </section>
+
+    <footer>提示：本工具仅用于学习和辅助分析，不构成投资建议。</footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
