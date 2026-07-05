@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Stock AI V1.3</title>
+  <title>Stock AI V1.3.1</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main class="shell">
   <section class="hero">
     <div>
-      <p class="eyebrow">Stock AI · V1.3</p>
+      <p class="eyebrow">Stock AI · V1.3.1</p>
       <h1>小马哥股票分析系统</h1>
-      <p class="desc">UI升级 + 你的选股体系产品化：大位置、MA5/10/20/60多头排列、成交量、风险评分。</p>
+      <p class="desc">修复未收录股票无法分析的问题：代码格式有效即可继续分析，数据库未收录只提示风险。</p>
     </div>
     <div class="heroCard">
       <span>当前策略</span>
@@ -24,8 +24,8 @@
   <section class="layout">
     <aside class="panel sticky">
       <h2>股票验证</h2>
-      <label>股票代码<input id="code" placeholder="例如 920211"></label>
-      <label>股票名称<input id="name" placeholder="例如 新睿电子"></label>
+      <label>股票代码<input id="code" placeholder="例如 600497"></label>
+      <label>股票名称<input id="name" placeholder="例如 驰宏锌锗"></label>
       <button id="checkBtn" class="secondary">验证并自动填充</button>
       <div id="verifyBox" class="notice">等待验证...</div>
 
@@ -38,8 +38,8 @@
     <section class="content">
       <div class="cards">
         <div class="metric"><span>综合评分</span><b id="score">--</b><em id="scoreText">等待分析</em></div>
+        <div class="metric"><span>真实性</span><b id="realStatus">--</b><em id="realHint">等待验证</em></div>
         <div class="metric"><span>大位置</span><b id="bigPos">--</b><em id="bigHint">历史区间</em></div>
-        <div class="metric"><span>均线排列</span><b id="maRank">--</b><em id="maHint">MA5/10/20/60</em></div>
         <div class="metric"><span>风险等级</span><b id="risk">--</b><em id="riskHint">等待分析</em></div>
       </div>
 
@@ -63,7 +63,7 @@
           <label>股数<input id="qty" type="number" step="1" placeholder="可选"></label>
         </div>
         <div class="actions">
-          <button id="analyzeBtn">开始 V1.3 分析</button>
+          <button id="analyzeBtn">开始 V1.3.1 分析</button>
           <button id="resetBtn" class="secondary">清空</button>
         </div>
       </div>
@@ -75,7 +75,7 @@
     </section>
   </section>
 
-  <footer>V1.3 是半自动版：自动验证、自动判断均线排列、自动评分。真实联网行情接口放到 V1.4。</footer>
+  <footer>V1.3.1：数据库已收录 = 已验证；数据库未收录但代码格式有效 = 允许分析；明显无效代码 = 停止分析。</footer>
 </main>
 <script src="script.js"></script>
 </body>
