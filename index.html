@@ -1,92 +1,88 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Stock AI V1.3.2</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stock AI V1.4.2</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main class="shell">
-  <section class="hero">
-    <div>
-      <p class="eyebrow">Stock AI · V1.3.2</p>
-      <h1>小马哥股票分析系统</h1>
-      <p class="desc">新增买点分级、止损参考、仓位建议、均线健康度，让分析更像真正的交易面板。</p>
-    </div>
-    <div class="heroCard">
-      <span>核心模型</span>
-      <strong>位置 × 均线 × 风险</strong>
-      <small>不追高，等低位共振</small>
-    </div>
-  </section>
+<section class="hero">
+<div>
+<p class="eyebrow">Stock AI · V1.4.2</p>
+<h1>小马哥股票分析系统</h1>
+<p class="desc">自动行情架构版：支持自动拉取、备用数据、失败回退、手动分析四层模式。</p>
+</div>
+<div class="heroCard">
+<span>V1.4.2 核心</span>
+<strong>自动数据 + 备用回退</strong>
+<small>GitHub Pages 可直接运行，真实接口可后续接入</small>
+</div>
+</section>
 
-  <section class="layout">
-    <aside class="panel sticky">
-      <h2>股票验证</h2>
-      <label>股票代码<input id="code" placeholder="例如 600497"></label>
-      <label>股票名称<input id="name" placeholder="例如 驰宏锌锗"></label>
-      <button id="checkBtn" class="secondary">验证并自动填充</button>
-      <div id="verifyBox" class="notice">等待验证...</div>
+<section class="layout">
+<aside class="panel sticky">
+<h2>自动股票查询</h2>
+<label>股票代码<input id="code" placeholder="例如 600497 / 920211"></label>
+<label>股票名称<input id="name" placeholder="自动填充或手动填写"></label>
+<button id="autoBtn">自动获取数据</button>
+<button id="checkBtn" class="secondary">仅验证股票</button>
+<div id="verifyBox" class="notice">等待查询...</div>
 
-      <h2 class="mt">价格区间</h2>
-      <label>当前价格<input id="price" type="number" step="0.01"></label>
-      <label>历史最高价<input id="high" type="number" step="0.01"></label>
-      <label>历史最低价<input id="low" type="number" step="0.01"></label>
-    </aside>
+<h2 class="mt">数据源设置</h2>
+<label>API地址<input id="apiUrl" placeholder="可选：填你的后端接口地址"></label>
+<div class="tip">不填 API 时，会使用内置备用数据。没收录的数据仍可手动填写分析。</div>
+</aside>
 
-    <section class="content">
-      <div class="cards">
-        <div class="metric primary"><span>综合评分</span><b id="score">--</b><em id="scoreText">等待分析</em></div>
-        <div class="metric"><span>买点等级</span><b id="buyLevel">--</b><em id="buyHint">等待分析</em></div>
-        <div class="metric"><span>真实性</span><b id="realStatus">--</b><em id="realHint">等待验证</em></div>
-        <div class="metric"><span>风险等级</span><b id="risk">--</b><em id="riskHint">等待分析</em></div>
-      </div>
+<section class="content">
+<div class="cards">
+<div class="metric primary"><span>综合评分</span><b id="score">--</b><em id="scoreText">等待分析</em></div>
+<div class="metric"><span>数据来源</span><b id="dataSource">--</b><em id="dataHint">等待获取</em></div>
+<div class="metric"><span>买点等级</span><b id="buyLevel">--</b><em id="buyHint">等待分析</em></div>
+<div class="metric"><span>风险等级</span><b id="risk">--</b><em id="riskHint">等待分析</em></div>
+</div>
 
-      <div class="panel">
-        <h2>均线系统</h2>
-        <div class="formGrid">
-          <label>MA5<input id="ma5" type="number" step="0.01"></label>
-          <label>MA10<input id="ma10" type="number" step="0.01"></label>
-          <label>MA20<input id="ma20" type="number" step="0.01"></label>
-          <label>MA60<input id="ma60" type="number" step="0.01"></label>
-        </div>
-        <div class="rankLine" id="rankLine">等待输入 MA5、MA10、MA20、MA60</div>
-      </div>
+<div class="panel">
+<h2>价格与均线</h2>
+<div class="formGrid">
+<label>当前价格<input id="price" type="number" step="0.01"></label>
+<label>历史最高价<input id="high" type="number" step="0.01"></label>
+<label>历史最低价<input id="low" type="number" step="0.01"></label>
+<label>MA5<input id="ma5" type="number" step="0.01"></label>
+<label>MA10<input id="ma10" type="number" step="0.01"></label>
+<label>MA20<input id="ma20" type="number" step="0.01"></label>
+<label>MA60<input id="ma60" type="number" step="0.01"></label>
+<label>当前成交量<input id="vol" type="number" step="1"></label>
+<label>平均成交量<input id="avgVol" type="number" step="1"></label>
+<label>买入价<input id="buy" type="number" step="0.01" placeholder="可选"></label>
+<label>股数<input id="qty" type="number" step="1" placeholder="可选"></label>
+</div>
+<div class="rankLine" id="rankLine">等待数据</div>
+<div class="actions">
+<button id="analyzeBtn">开始 V1.4.2 分析</button>
+<button id="resetBtn" class="secondary">清空</button>
+</div>
+</div>
 
-      <div class="panel">
-        <h2>成交量与持仓</h2>
-        <div class="formGrid">
-          <label>当前成交量<input id="vol" type="number" step="1" placeholder="可选"></label>
-          <label>平均成交量<input id="avgVol" type="number" step="1" placeholder="可选"></label>
-          <label>买入价<input id="buy" type="number" step="0.01" placeholder="可选"></label>
-          <label>股数<input id="qty" type="number" step="1" placeholder="可选"></label>
-        </div>
-        <div class="actions">
-          <button id="analyzeBtn">开始 V1.3.2 分析</button>
-          <button id="sampleBtn" class="secondary">填入示例</button>
-          <button id="resetBtn" class="secondary">清空</button>
-        </div>
-      </div>
+<div class="panel decision">
+<h2>交易参考面板</h2>
+<div class="decisionGrid">
+<div><span>建议动作</span><b id="action">--</b></div>
+<div><span>参考仓位</span><b id="position">--</b></div>
+<div><span>止损参考</span><b id="stopLoss">--</b></div>
+<div><span>核心风险</span><b id="mainRisk">--</b></div>
+</div>
+</div>
 
-      <div class="panel decision">
-        <h2>交易参考面板</h2>
-        <div class="decisionGrid">
-          <div><span>建议动作</span><b id="action">--</b></div>
-          <div><span>参考仓位</span><b id="position">--</b></div>
-          <div><span>止损参考</span><b id="stopLoss">--</b></div>
-          <div><span>核心风险</span><b id="mainRisk">--</b></div>
-        </div>
-      </div>
+<div class="panel report">
+<h2>AI 分析报告</h2>
+<pre id="report">等待分析...</pre>
+</div>
+</section>
+</section>
 
-      <div class="panel report">
-        <h2>AI 分析报告</h2>
-        <pre id="report">等待分析...</pre>
-      </div>
-    </section>
-  </section>
-
-  <footer>V1.3.2：不是投资建议，只是把你的选股体系工具化。V1.4 再接入真实行情数据。</footer>
+<footer>V1.4.2：前端可直接部署。真实联网行情需要你后续配置自己的 API 地址。</footer>
 </main>
 <script src="script.js"></script>
 </body>
