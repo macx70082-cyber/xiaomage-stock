@@ -1,102 +1,116 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Stock AI V1.5 Pro</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stock AI V1.5 Pro</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-<main class="shell">
-<section class="hero">
-  <div>
-    <p class="eyebrow">Stock AI · V1.5 Pro</p>
-    <h1>老手决策版</h1>
-    <p class="desc">从“打分工具”升级为“交易决策引擎”：先看大位置，再看趋势、量能、风险，最后给交易计划。</p>
-  </div>
-  <div class="heroCard">
-    <span>核心原则</span>
-    <strong>位置优先，风险先行</strong>
-    <small>低位多头 ≠ 无脑买；高位多头 ≠ 安全</small>
-  </div>
-</section>
-
-<section class="layout">
-<aside class="panel sticky">
-  <h2>股票信息</h2>
-  <label>股票代码<input id="code" placeholder="例如 600497"></label>
-  <label>股票名称<input id="name" placeholder="可选"></label>
-  <button id="checkBtn" class="secondary">验证代码格式</button>
-  <div id="verifyBox" class="notice">V1.5 Pro 已删除大量内置股票库，只做代码格式判断。未来联网后由接口验证真实股票。</div>
-
-  <h2 class="mt">价格区间</h2>
-  <label>当前价格<input id="price" type="number" step="0.01"></label>
-  <label>历史最高价<input id="high" type="number" step="0.01"></label>
-  <label>历史最低价<input id="low" type="number" step="0.01"></label>
-</aside>
-
-<section class="content">
-  <div class="cards">
-    <div class="metric primary"><span>老手评级</span><b id="proGrade">--</b><em id="proHint">等待分析</em></div>
-    <div class="metric"><span>大位置</span><b id="posZone">--</b><em id="posHint">等待分析</em></div>
-    <div class="metric"><span>决策</span><b id="decision">--</b><em id="decisionHint">等待分析</em></div>
-    <div class="metric"><span>风险等级</span><b id="risk">--</b><em id="riskHint">等待分析</em></div>
-  </div>
-
-  <div class="panel">
-    <h2>均线与量能</h2>
-    <div class="formGrid">
-      <label>MA5<input id="ma5" type="number" step="0.01"></label>
-      <label>MA10<input id="ma10" type="number" step="0.01"></label>
-      <label>MA20<input id="ma20" type="number" step="0.01"></label>
-      <label>MA60<input id="ma60" type="number" step="0.01"></label>
-      <label>当前成交量<input id="vol" type="number" step="1" placeholder="可选"></label>
-      <label>平均成交量<input id="avgVol" type="number" step="1" placeholder="可选"></label>
-      <label>买入价<input id="buy" type="number" step="0.01" placeholder="可选"></label>
-      <label>股数<input id="qty" type="number" step="1" placeholder="可选"></label>
-    </div>
-    <div class="rankLine" id="rankLine">等待输入 MA5、MA10、MA20、MA60</div>
-    <div class="actions">
-      <button id="analyzeBtn">开始老手分析</button>
-      <button id="sampleBtn" class="secondary">填入示例</button>
-      <button id="resetBtn" class="secondary">清空</button>
-    </div>
-  </div>
-
-  <div class="panel decision">
-    <h2>交易计划</h2>
-    <div class="decisionGrid">
-      <div><span>建议动作</span><b id="action">--</b></div>
-      <div><span>参考仓位</span><b id="position">--</b></div>
-      <div><span>支撑位</span><b id="support">--</b></div>
-      <div><span>压力位</span><b id="resistance">--</b></div>
-      <div><span>止损参考</span><b id="stopLoss">--</b></div>
-      <div><span>第一目标</span><b id="target1">--</b></div>
-      <div><span>第二目标</span><b id="target2">--</b></div>
-      <div><span>失败信号</span><b id="failSignal">--</b></div>
-    </div>
-  </div>
-
-  <div class="panel split">
+  <header class="hero">
     <div>
-      <h2>支持理由</h2>
-      <ul id="pros"><li>等待分析</li></ul>
+      <p class="eyebrow">Stock AI V1.5 Pro</p>
+      <h1>职业交易员思维股票分析助手</h1>
+      <p class="subtitle">按“位置 → 趋势 → 成交量 → 支撑压力 → 风险 → 交易计划”的决策树分析，不盲目喊买卖。</p>
     </div>
-    <div>
-      <h2>反对理由</h2>
-      <ul id="cons"><li>等待分析</li></ul>
-    </div>
-  </div>
+  </header>
 
-  <div class="panel report">
-    <h2>老手分析报告</h2>
-    <pre id="report">等待分析...</pre>
-  </div>
-</section>
-</section>
+  <main class="layout">
+    <section class="card input-card">
+      <h2>输入股票信息</h2>
+      <div class="grid two">
+        <label>股票名称
+          <input id="stockName" placeholder="例如：贵州茅台 / Tesla" />
+        </label>
+        <label>股票代码
+          <input id="stockCode" placeholder="例如：600519 / TSLA" />
+        </label>
+      </div>
 
-<footer>V1.5 Pro：删除大量内置股票库，升级老手决策逻辑。联网验证与真实行情接入留给 V1.6 Online。</footer>
-</main>
-<script src="script.js"></script>
+      <h3>价格与均线</h3>
+      <div class="grid three">
+        <label>当前价格
+          <input id="price" type="number" step="0.01" placeholder="25.00" />
+        </label>
+        <label>MA20
+          <input id="ma20" type="number" step="0.01" placeholder="23.75" />
+        </label>
+        <label>MA60
+          <input id="ma60" type="number" step="0.01" placeholder="22.30" />
+        </label>
+      </div>
+
+      <h3>历史位置</h3>
+      <div class="grid two">
+        <label>历史高点 / 近期重要高点
+          <input id="high" type="number" step="0.01" placeholder="30.00" />
+        </label>
+        <label>历史低点 / 近期重要低点
+          <input id="low" type="number" step="0.01" placeholder="18.00" />
+        </label>
+      </div>
+
+      <h3>趋势与量能</h3>
+      <div class="grid two">
+        <label>趋势状态
+          <select id="trend">
+            <option value="up">上升趋势</option>
+            <option value="sideways">箱体震荡</option>
+            <option value="down">下降趋势</option>
+            <option value="unknown">不确定</option>
+          </select>
+        </label>
+        <label>成交量状态
+          <select id="volume">
+            <option value="normal">正常</option>
+            <option value="breakout">放量突破</option>
+            <option value="stagnation">放量滞涨</option>
+            <option value="shrinkPullback">缩量回调</option>
+            <option value="divergence">量价背离</option>
+          </select>
+        </label>
+      </div>
+
+      <h3>交易意图</h3>
+      <div class="grid two">
+        <label>你的状态
+          <select id="positionState">
+            <option value="watching">还没买，正在观察</option>
+            <option value="holdingProfit">已持有，有盈利</option>
+            <option value="holdingLoss">已持有，正在亏损</option>
+          </select>
+        </label>
+        <label>操作风格
+          <select id="style">
+            <option value="steady">稳健</option>
+            <option value="balanced">均衡</option>
+            <option value="aggressive">激进</option>
+          </select>
+        </label>
+      </div>
+
+      <button id="analyzeBtn">开始专业分析</button>
+      <p class="note">提示：V1.5 先做格式验证和专业分析框架；真实联网查股票数据适合 V2.0 以后升级。</p>
+    </section>
+
+    <section class="card result-card">
+      <div class="result-header">
+        <h2>分析结果</h2>
+        <span id="riskBadge" class="badge neutral">等待分析</span>
+      </div>
+      <div id="output" class="output empty">输入数据后点击“开始专业分析”。</div>
+    </section>
+
+    <section class="card education-card">
+      <h2>交易案例学习库</h2>
+      <div id="caseLibrary" class="case-list"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Stock AI V1.5 Pro · 教学与辅助分析工具，不构成投资建议。</p>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
