@@ -1,5 +1,5 @@
 function riskBreakdown(d,pos,score,sr){
-  let location = (pos.big==='历史极高位'||pos.big==='历史高位')?'高':(pos.big==='历史极低位'||pos.big==='历史低位')?'低':'中';
+  let location = pos.big==='历史高位'?'高':pos.big==='历史低位'?'低':'中';
   let trend = d.trend==='down'?'高':d.trend==='side'?'中':'低';
   let volume = d.volume==='divergence'?'高':d.volume==='weak'?'中':'低';
   let pressure = Math.abs((sr.pressure-d.price)/d.price*100) < 5 ? '高' : '中';

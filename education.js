@@ -9,7 +9,7 @@ const cases = [
   {name:'下跌反弹案例',desc:'下跌趋势中的反弹，不等于趋势反转。'}
 ];
 function matchCase(d,pos){
-  if(pos.big==='历史极高位' || pos.big==='历史高位') return {name:'历史新高案例',sim:84,why:'大位置偏高，压力和获利盘是核心矛盾。'};
+  if(pos.big==='历史高位') return {name:'历史新高案例',sim:84,why:'大位置偏高，压力和获利盘是核心矛盾。'};
   if(d.trend==='up' && d.price>d.ma20 && d.price>d.ma60) return {name:'主升浪案例',sim:82,why:'趋势向上，价格在主要均线上方，符合顺势结构。'};
   if(d.trend==='side') return {name:'箱体震荡案例',sim:78,why:'趋势不够明确，更像区间波动。'};
   if(d.trend==='down') return {name:'下跌反弹案例',sim:80,why:'下跌趋势中要先防反弹失败。'};
@@ -17,8 +17,8 @@ function matchCase(d,pos){
 }
 function mistakes(d,pos){
   const arr=[];
-  if(Math.abs((d.price-d.ma20)/d.ma20*100)<3 && (pos.big==='历史极高位'||pos.big==='历史高位')) arr.push('MA20附近 ≠ 低位。历史位置高时，短线贴近均线也可能只是高位休整。');
-  if(pos.big==='历史极低位'||pos.big==='历史低位') arr.push('低位 ≠ 马上涨。低位只说明位置不高，还需要趋势和量能配合。');
+  if(Math.abs((d.price-d.ma20)/d.ma20*100)<3 && pos.big==='历史高位') arr.push('MA20附近 ≠ 低位。历史位置高时，短线贴近均线也可能只是高位休整。');
+  if(pos.big==='历史低位') arr.push('低位 ≠ 马上涨。低位只说明位置不高，还需要趋势和量能配合。');
   if(d.volume==='strong') arr.push('放量 ≠ 一定上涨。要看放量后价格是否能继续上攻。');
   if(d.volume==='divergence') arr.push('放量滞涨要谨慎，可能说明上方抛压较重。');
   if(d.positionState==='wantBuy') arr.push('很想买时最容易冲动，必须先写好止损和放弃条件。');
