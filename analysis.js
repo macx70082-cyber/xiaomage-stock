@@ -76,12 +76,10 @@ function analyzeTrend(d){
 function bullBearScore(d,pos){
   let bull=0,bear=0,bulls=[],bears=[];
 
-  // 1. 位置评分：来自 Sprint 1 的大位置引擎
   const positionScore = clamp(pos.positionScore || 6, 1, 10);
   if(positionScore >= 8){bull += 2; bulls.push('大位置不高，具备位置优势');}
   if(positionScore <= 3){bear += 3; bears.push('大位置偏高，追涨风险较大');}
 
-  // 2. 趋势评分
   let trendScore = d.trend === 'up' ? 8 : d.trend === 'side' ? 5 : 2;
   if(d.trend === 'up' && d.price >= d.ma20) trendScore += 1;
   if(d.trend === 'up' && d.price >= d.ma60) trendScore += 1;
@@ -90,14 +88,12 @@ function bullBearScore(d,pos){
   if(d.trend==='side'){bull+=1;bear+=1;bulls.push('震荡中仍可能有结构机会');bears.push('震荡趋势容易假突破');}
   if(d.trend==='down'){bear+=3;bears.push('下跌趋势中，反弹失败概率更高');}
 
-  // 3. 量能评分
   let volumeScore = {strong:8, normal:6, weak:4, divergence:2}[d.volume] || 6;
   if(d.volume==='strong'){bull+=2;bulls.push('放量说明资金关注度提升');}
   if(d.volume==='normal'){bull+=1;bulls.push('量能正常，结构没有明显失真');}
   if(d.volume==='weak'){bear+=1;bears.push('缩量说明主动进攻不足');}
   if(d.volume==='divergence'){bear+=3;bears.push('放量滞涨，说明分歧或抛压较重');}
 
-  // 4. 结构评分：看价格、均线和大位置的组合质量
   let structureScore = 0;
   if(d.price >= d.ma20){structureScore += 3; bull += 1; bulls.push('价格站在MA20上方');}
   else {structureScore += 1; bear += 1; bears.push('价格未站稳MA20');}
