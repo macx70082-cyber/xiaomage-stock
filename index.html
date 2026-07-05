@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Stock AI V1.3.1</title>
+  <title>Stock AI V1.3.2</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main class="shell">
   <section class="hero">
     <div>
-      <p class="eyebrow">Stock AI · V1.3.1</p>
+      <p class="eyebrow">Stock AI · V1.3.2</p>
       <h1>小马哥股票分析系统</h1>
-      <p class="desc">修复未收录股票无法分析的问题：代码格式有效即可继续分析，数据库未收录只提示风险。</p>
+      <p class="desc">新增买点分级、止损参考、仓位建议、均线健康度，让分析更像真正的交易面板。</p>
     </div>
     <div class="heroCard">
-      <span>当前策略</span>
-      <strong>低位 + 多头排列</strong>
-      <small>先看大位置，再看均线共振</small>
+      <span>核心模型</span>
+      <strong>位置 × 均线 × 风险</strong>
+      <small>不追高，等低位共振</small>
     </div>
   </section>
 
@@ -37,9 +37,9 @@
 
     <section class="content">
       <div class="cards">
-        <div class="metric"><span>综合评分</span><b id="score">--</b><em id="scoreText">等待分析</em></div>
+        <div class="metric primary"><span>综合评分</span><b id="score">--</b><em id="scoreText">等待分析</em></div>
+        <div class="metric"><span>买点等级</span><b id="buyLevel">--</b><em id="buyHint">等待分析</em></div>
         <div class="metric"><span>真实性</span><b id="realStatus">--</b><em id="realHint">等待验证</em></div>
-        <div class="metric"><span>大位置</span><b id="bigPos">--</b><em id="bigHint">历史区间</em></div>
         <div class="metric"><span>风险等级</span><b id="risk">--</b><em id="riskHint">等待分析</em></div>
       </div>
 
@@ -63,8 +63,19 @@
           <label>股数<input id="qty" type="number" step="1" placeholder="可选"></label>
         </div>
         <div class="actions">
-          <button id="analyzeBtn">开始 V1.3.1 分析</button>
+          <button id="analyzeBtn">开始 V1.3.2 分析</button>
+          <button id="sampleBtn" class="secondary">填入示例</button>
           <button id="resetBtn" class="secondary">清空</button>
+        </div>
+      </div>
+
+      <div class="panel decision">
+        <h2>交易参考面板</h2>
+        <div class="decisionGrid">
+          <div><span>建议动作</span><b id="action">--</b></div>
+          <div><span>参考仓位</span><b id="position">--</b></div>
+          <div><span>止损参考</span><b id="stopLoss">--</b></div>
+          <div><span>核心风险</span><b id="mainRisk">--</b></div>
         </div>
       </div>
 
@@ -75,7 +86,7 @@
     </section>
   </section>
 
-  <footer>V1.3.1：数据库已收录 = 已验证；数据库未收录但代码格式有效 = 允许分析；明显无效代码 = 停止分析。</footer>
+  <footer>V1.3.2：不是投资建议，只是把你的选股体系工具化。V1.4 再接入真实行情数据。</footer>
 </main>
 <script src="script.js"></script>
 </body>
