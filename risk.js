@@ -1,1 +1,12 @@
-export function risk(d,p){let s=1,r=[];if(p.big==='历史高位'){s+=2;r.push('历史高位')}if(d.trend==='down'){s+=2;r.push('下降趋势')}if(['stagnation','divergence'].includes(d.volume)){s+=2;r.push('量能风险')}if(d.price>d.ma20*1.12){s+=1;r.push('短线偏离MA20较远')}if(d.style==='aggressive')s+=1;if(d.positionState==='holdingLoss'&&d.price<d.ma20){s+=1;r.push('持仓亏损且跌破MA20')}let grade=s>=7?'E':s>=5?'D':s>=3?'C':s===2?'B':'A';let text={A:'低风险观察区',B:'中低风险',C:'中等风险',D:'高风险',E:'极高风险'}[grade];let cls=s>=5?'high':s>=3?'mid':'low';return{score:s,grade,text,reasons:r,cls}}
+function riskBreakdown(d,pos,score,sr){
+  let location = pos.big==='历史高位'?'高':pos.big==='历史低位'?'低':'中';
+  let trend = d.trend==='down'?'高':d.trend==='side'?'中':'低';
+  let volume = d.volume==='divergence'?'高':d.volume==='weak'?'中':'低';
+  let pressure = Math.abs((sr.pressure-d.price)/d.price*100) < 5 ? '高' : '中';
+  let riskPoint = 0;
+  [location,trend,volume,pressure].forEach(r=>{riskPoint += r==='高'?2:r==='中'?1:0});
+  if(score.bear>score.bull) riskPoint += 1;
+  const grade = riskPoint<=2?'A':riskPoint<=4?'B':riskPoint<=6?'C':riskPoint<=8?'D':'E';
+  const explain = {A:'风险较低，但仍需要计划。',B:'风险中低，适合观察确认。',C:'风险中等，不能无计划追涨。',D:'风险较高，必须控制仓位和止损。',E:'极高风险，优先回避或只做学习观察。'}[grade];
+  return {location,trend,volume,pressure,grade,explain};
+}

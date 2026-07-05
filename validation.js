@@ -1,1 +1,30 @@
-export function validate(d){const e=[];if(!d.stockName)e.push('请填写股票名称。');if(!d.stockCode)e.push('请填写股票代码。');if(d.stockCode&&!/^([0-9]{6}|[A-Z]{1,5})$/.test(d.stockCode))e.push('股票代码格式建议为 A股6位数字，或美股1-5位英文字母。');['price','ma20','ma60','high','low'].forEach(k=>{if(!Number.isFinite(d[k])||d[k]<=0)e.push(`${label(k)} 必须是大于0的数字。`)});if(Number.isFinite(d.high)&&Number.isFinite(d.low)&&d.high<=d.low)e.push('历史高点必须大于历史低点。');if(Number.isFinite(d.price)&&Number.isFinite(d.high)&&d.price>d.high*1.25)e.push('当前价远高于历史高点，请检查数据是否填错。');return e}function label(k){return{price:'当前价格',ma20:'MA20',ma60:'MA60',high:'历史高点',low:'历史低点'}[k]}
+function toNumber(id){
+  const value = document.getElementById(id).value.trim();
+  const n = Number(value);
+  return Number.isFinite(n) ? n : null;
+}
+function collectInput(){
+  return {
+    name: document.getElementById('stockName').value.trim() || '未命名股票',
+    code: document.getElementById('stockCode').value.trim() || '未填写代码',
+    price: toNumber('price'), ma20: toNumber('ma20'), ma60: toNumber('ma60'),
+    high: toNumber('high'), low: toNumber('low'),
+    trend: document.getElementById('trend').value,
+    volume: document.getElementById('volume').value,
+    positionState: document.getElementById('positionState').value,
+    style: document.getElementById('style').value
+  };
+}
+function validateInput(d){
+  const miss = [];
+  ['price','ma20','ma60','high','low'].forEach(k=>{ if(d[k]===null) miss.push(k); });
+  if(miss.length) return {ok:false,msg:'请补全价格、MA20、MA60、历史高点、历史低点。'};
+  if(d.high <= d.low) return {ok:false,msg:'历史高点必须大于历史低点。'};
+  if(d.price <= 0 || d.ma20 <= 0 || d.ma60 <= 0) return {ok:false,msg:'价格和均线必须大于0。'};
+  return {ok:true,msg:'OK'};
+}
+function codeQuality(code){
+  if(/^(60|68|00|30|8|4)\d{4}$/.test(code)) return 'A股代码格式正常';
+  if(/^[A-Z]{1,5}$/.test(code)) return '美股代码格式正常';
+  return '代码格式仅做基础检查，V2.0再联网验证真实性';
+}
