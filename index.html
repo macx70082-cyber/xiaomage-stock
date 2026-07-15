@@ -1,101 +1,207 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stock AI V1.5 Ultimate</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Stock AI V1.5 Ultimate Pro：不联网的股票分析学习工具。">
+  <title>Stock AI V1.5 Ultimate Pro</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <a class="skip-link" href="#mainContent">跳到主要内容</a>
+
   <header class="hero">
-    <div>
-      <p class="eyebrow">Stock AI V1.5 Ultimate</p>
+    <div class="hero__content">
+      <p class="eyebrow">Stock AI V1.5 Ultimate Pro</p>
       <h1>职业交易员式股票分析助手</h1>
-      <p class="subtitle">不联网，先把分析大脑做到成熟：大位置/小位置、多空评分、风险拆解、交易计划、案例教学。</p>
+      <p class="subtitle">
+        当前为不联网版本。数据由你手动输入，系统只做规则化分析，不会验证实时行情，也不构成投资建议。
+      </p>
     </div>
-    <div class="badge">Ultimate</div>
+    <div class="version-badge" aria-label="当前版本">V1.5 Ultimate Pro</div>
   </header>
 
-  <main class="layout">
-    <section class="panel input-panel">
-      <h2>输入股票信息</h2>
-      <div class="grid two">
-        <label>股票名称<input id="stockName" placeholder="例如：贵州茅台 / Tesla"></label>
-        <label>股票代码<input id="stockCode" placeholder="例如：600519 / TSLA"></label>
+  <main id="mainContent" class="page-shell">
+    <section class="panel input-panel" aria-labelledby="inputTitle">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">手动数据模式</p>
+          <h2 id="inputTitle">输入股票信息</h2>
+        </div>
+        <span class="status-chip">不联网</span>
       </div>
 
-      <h3>价格与均线</h3>
-      <div class="grid three">
-        <label>当前价格<input id="price" type="number" step="0.01" placeholder="25.00"></label>
-        <label>MA20<input id="ma20" type="number" step="0.01" placeholder="23.75"></label>
-        <label>MA60<input id="ma60" type="number" step="0.01" placeholder="22.30"></label>
-      </div>
+      <form id="stockForm" novalidate>
+        <fieldset>
+          <legend>基本信息</legend>
+          <div class="form-grid form-grid--2">
+            <label for="stockName">
+              股票名称
+              <input id="stockName" name="stockName" type="text" maxlength="40" autocomplete="off" placeholder="例如：贵州茅台">
+            </label>
+            <label for="stockCode">
+              股票代码
+              <input id="stockCode" name="stockCode" type="text" maxlength="10" inputmode="text" autocomplete="off" placeholder="例如：600519 / TSLA">
+            </label>
+          </div>
+          <div class="inline-actions">
+            <button id="validateBtn" class="button button--secondary" type="button">检查代码格式</button>
+            <span id="codeStatus" class="inline-status" role="status" aria-live="polite">仅检查格式，不验证股票真实性。</span>
+          </div>
+        </fieldset>
 
-      <h3>历史位置</h3>
-      <div class="grid two">
-        <label>历史高点 / 重要高点<input id="high" type="number" step="0.01" placeholder="30.00"></label>
-        <label>历史低点 / 重要低点<input id="low" type="number" step="0.01" placeholder="18.00"></label>
-      </div>
+        <fieldset>
+          <legend>当前价格与历史位置</legend>
+          <div class="form-grid form-grid--3">
+            <label for="price">
+              当前价格 <span aria-hidden="true">*</span>
+              <input id="price" name="price" type="number" min="0.0001" step="0.01" inputmode="decimal" required placeholder="25.00">
+            </label>
+            <label for="high">
+              历史高点 / 重要高点 <span aria-hidden="true">*</span>
+              <input id="high" name="high" type="number" min="0.0001" step="0.01" inputmode="decimal" required placeholder="30.00">
+            </label>
+            <label for="low">
+              历史低点 / 重要低点 <span aria-hidden="true">*</span>
+              <input id="low" name="low" type="number" min="0.0001" step="0.01" inputmode="decimal" required placeholder="18.00">
+            </label>
+          </div>
+        </fieldset>
 
-      <h3>趋势与量能</h3>
-      <div class="grid two">
-        <label>趋势状态
-          <select id="trend">
-            <option value="up">上涨趋势</option>
-            <option value="side">震荡趋势</option>
-            <option value="down">下跌趋势</option>
-          </select>
-        </label>
-        <label>成交量状态
-          <select id="volume">
-            <option value="normal">正常</option>
-            <option value="strong">放量</option>
-            <option value="weak">缩量</option>
-            <option value="divergence">放量滞涨</option>
-          </select>
-        </label>
-      </div>
+        <fieldset>
+          <legend>均线数据</legend>
+          <div class="form-grid form-grid--4">
+            <label for="ma5">
+              MA5 <span aria-hidden="true">*</span>
+              <input id="ma5" name="ma5" type="number" min="0.0001" step="0.01" inputmode="decimal" required placeholder="25.30">
+            </label>
+            <label for="ma10">
+              MA10 <span aria-hidden="true">*</span>
+              <input id="ma10" name="ma10" type="number" min="0.0001" step="0.01" inputmode="decimal" required placeholder="24.80">
+            </label>
+            <label for="ma20">
+              MA20 <span aria-hidden="true">*</span>
+              <input id="ma20" name="ma20" type="number" min="0.0001" step="0.01" inputmode="decimal" required placeholder="23.75">
+            </label>
+            <label for="ma60">
+              MA60 <span aria-hidden="true">*</span>
+              <input id="ma60" name="ma60" type="number" min="0.0001" step="0.01" inputmode="decimal" required placeholder="22.30">
+            </label>
+          </div>
+          <p class="field-note">系统会自动识别多头排列、空头排列和混合排列，不会仅凭多头排列直接给出买入结论。</p>
+        </fieldset>
 
-      <h3>交易意图</h3>
-      <div class="grid two">
-        <label>你的状态
-          <select id="positionState">
-            <option value="watch">还没买，正在观察</option>
-            <option value="hold">已经持有</option>
-            <option value="wantBuy">很想买</option>
-            <option value="wantSell">想卖出</option>
-          </select>
-        </label>
-        <label>操作风格
-          <select id="style">
-            <option value="steady">稳健</option>
-            <option value="balanced">平衡</option>
-            <option value="aggressive">激进</option>
-          </select>
-        </label>
-      </div>
+        <fieldset>
+          <legend>成交量与近期状态</legend>
+          <div class="form-grid form-grid--2">
+            <label for="currentVolume">
+              当前成交量（可选）
+              <input id="currentVolume" name="currentVolume" type="number" min="0" step="1" inputmode="numeric" placeholder="例如：1800000">
+            </label>
+            <label for="averageVolume">
+              近期平均成交量（可选）
+              <input id="averageVolume" name="averageVolume" type="number" min="0.0001" step="1" inputmode="numeric" placeholder="例如：1300000">
+            </label>
+            <label for="priceAction">
+              当日价格表现
+              <select id="priceAction" name="priceAction">
+                <option value="up">上涨</option>
+                <option value="flat" selected>震荡 / 变化不大</option>
+                <option value="down">下跌</option>
+              </select>
+            </label>
+            <label for="recentTrend">
+              近期趋势补充
+              <select id="recentTrend" name="recentTrend">
+                <option value="auto" selected>由均线结构自动判断</option>
+                <option value="up">手动选择：上涨趋势</option>
+                <option value="side">手动选择：震荡趋势</option>
+                <option value="down">手动选择：下跌趋势</option>
+              </select>
+            </label>
+          </div>
+        </fieldset>
 
-      <button id="analyzeBtn">开始 Ultimate 分析</button>
-      <p class="notice">提示：V1.5 Ultimate 仍是学习和辅助分析工具，不构成投资建议。真实联网行情留给 V2.0。</p>
+        <fieldset>
+          <legend>交易状态与持仓信息</legend>
+          <div class="form-grid form-grid--2">
+            <label for="positionState">
+              你的当前状态
+              <select id="positionState" name="positionState">
+                <option value="watch" selected>还没买，正在观察</option>
+                <option value="hold">已经持有</option>
+                <option value="wantBuy">很想买</option>
+                <option value="wantSell">正在考虑卖出</option>
+              </select>
+            </label>
+            <label for="style">
+              操作风格
+              <select id="style" name="style">
+                <option value="steady">稳健</option>
+                <option value="balanced" selected>平衡</option>
+                <option value="aggressive">激进</option>
+              </select>
+            </label>
+            <label for="buyPrice">
+              买入价格（可选）
+              <input id="buyPrice" name="buyPrice" type="number" min="0.0001" step="0.01" inputmode="decimal" placeholder="未持有可留空">
+            </label>
+            <label for="quantity">
+              持有数量（可选）
+              <input id="quantity" name="quantity" type="number" min="0.0001" step="0.0001" inputmode="decimal" placeholder="A股可填写股数">
+            </label>
+          </div>
+        </fieldset>
+
+        <div id="formStatus" class="form-status" role="alert" aria-live="assertive">
+          请填写带 * 的项目。成交量和持仓信息可以留空。
+        </div>
+
+        <div class="button-row">
+          <button id="analyzeBtn" class="button button--primary" type="submit">开始分析</button>
+          <button id="sampleBtn" class="button button--secondary" type="button">填入示例</button>
+          <button id="resetBtn" class="button button--ghost" type="reset">重置</button>
+        </div>
+      </form>
     </section>
 
-    <section class="panel result-panel">
-      <h2>职业交易员分析报告</h2>
-      <div id="summaryCards" class="cards"></div>
-      <div id="report" class="report empty">等待分析。输入数据后点击“开始 Ultimate 分析”。</div>
+    <section id="resultPanel" class="panel result-panel" aria-labelledby="resultTitle">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">规则化辅助分析</p>
+          <h2 id="resultTitle">Stock AI 分析报告</h2>
+        </div>
+        <span id="analysisConfidence" class="status-chip status-chip--muted">等待分析</span>
+      </div>
+
+      <div id="summaryCards" class="summary-cards" aria-live="polite">
+        <article class="summary-card summary-card--placeholder"><span>综合结论</span><strong>--</strong></article>
+        <article class="summary-card summary-card--placeholder"><span>综合评分</span><strong>--</strong></article>
+        <article class="summary-card summary-card--placeholder"><span>风险等级</span><strong>--</strong></article>
+        <article class="summary-card summary-card--placeholder"><span>均线结构</span><strong>--</strong></article>
+      </div>
+
+      <div id="report" class="report report--empty">
+        输入数据后点击“开始分析”。分析结果只适合学习和辅助判断，不能替代真实行情、基本面研究和个人风险评估。
+      </div>
     </section>
   </main>
 
-  <section class="panel library">
-    <h2>交易案例学习库</h2>
+  <section class="panel case-library" aria-labelledby="caseTitle">
+    <div class="section-heading">
+      <div>
+        <p class="section-kicker">案例教学</p>
+        <h2 id="caseTitle">不同市场状态参考</h2>
+      </div>
+    </div>
     <div id="caseLibrary" class="case-grid"></div>
   </section>
 
-  <script src="validation.js"></script>
-  <script src="analysis.js"></script>
-  <script src="risk.js"></script>
-  <script src="strategy.js"></script>
-  <script src="education.js"></script>
-  <script src="main.js"></script>
+  <footer class="site-footer">
+    <p>Stock AI V1.5 Ultimate Pro · 手动输入数据版</p>
+    <p>本工具仅用于学习和研究，不构成投资建议。任何交易决策和损失均由使用者自行承担。</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
