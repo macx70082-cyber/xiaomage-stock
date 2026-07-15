@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  const VERSION = 'Stock AI V1.5 Ultimate Pro · Sprint 4';
+  const VERSION = 'Stock AI V1.5 Ultimate Pro · Sprint 4.1';
 
   const FIELD_LABELS = {
     price: '当前价格',
@@ -980,20 +980,19 @@
     const container = document.getElementById('summaryCards');
     const decisionClass = getToneClass(result.decision.tone);
     const scoreClass = result.score.total >= 60 ? 'summary-card--success' : result.score.total < 40 ? 'summary-card--danger' : 'summary-card--warning';
-    const cycle = CYCLE_CONFIG[result.data.analysisCycle] || CYCLE_CONFIG.swing;
 
-    container.innerHTML = [
-      { label: '综合结论', value: result.decision.decision, cls: decisionClass },
+    const cards = [
+      { label: '综合结论', value: result.decision.decision, cls: `${decisionClass} summary-card--featured` },
       { label: '综合评分', value: `${Math.round(result.score.total)}/100`, cls: scoreClass },
       { label: '风险等级', value: `${result.risk.grade}级 · ${result.risk.label}`, cls: riskTone(result.risk.grade) },
       { label: '硬性风控', value: result.hardControls.triggered.length ? `触发 ${result.hardControls.triggered.length} 项` : '全部通过', cls: result.hardControls.triggered.length ? 'summary-card--danger' : 'summary-card--success' },
-      { label: '分析周期', value: cycle.label.split('（')[0], cls: 'summary-card--warning' },
-      { label: 'MA5/MA10', value: result.movingAverage.shortStructure, cls: result.movingAverage.shortTermScore >= 7 ? 'summary-card--success' : result.movingAverage.shortTermScore <= 3 ? 'summary-card--danger' : 'summary-card--warning' },
+      { label: '收益风险比', value: `${formatNumber(result.levels.rewardRiskRatio)} : 1`, cls: result.levels.rewardRiskRatio >= 1.5 ? 'summary-card--success' : 'summary-card--warning' },
+      { label: '学习型仓位上限', value: result.plan.positionRange, cls: result.hardControls.triggered.length ? 'summary-card--danger' : 'summary-card--warning' },
       { label: '整体均线', value: result.movingAverage.type, cls: result.movingAverage.strictBull ? 'summary-card--success' : result.movingAverage.strictBear ? 'summary-card--danger' : 'summary-card--warning' },
-      { label: '历史位置', value: result.position.zone, cls: result.position.ratio > 0.65 ? 'summary-card--danger' : 'summary-card--success' },
-      { label: '量能状态', value: result.volume.type, cls: result.volume.riskScore >= 70 ? 'summary-card--danger' : result.volume.score >= 10 ? 'summary-card--success' : 'summary-card--warning' },
-      { label: '案例匹配', value: `${result.matchedCase.name} ${result.matchedCase.similarity}%`, cls: 'summary-card--warning' }
-    ].map(card => `<article class="summary-card ${card.cls}"><span>${escapeHTML(card.label)}</span><strong>${escapeHTML(card.value)}</strong></article>`).join('');
+      { label: '数据可信度', value: `${result.confidence}%`, cls: result.confidence >= 75 ? 'summary-card--success' : 'summary-card--warning' }
+    ];
+
+    container.innerHTML = cards.map(card => `<article class="summary-card ${card.cls}"><span>${escapeHTML(card.label)}</span><strong>${escapeHTML(card.value)}</strong></article>`).join('');
   }
 
   function renderTagList(items, risk = false) {
@@ -1264,18 +1263,21 @@
     window.setTimeout(() => {
       clearInvalidStates();
       document.getElementById('summaryCards').innerHTML = `
-        <article class="summary-card summary-card--placeholder"><span>综合结论</span><strong>--</strong></article>
+        <article class="summary-card summary-card--placeholder summary-card--featured"><span>综合结论</span><strong>--</strong></article>
         <article class="summary-card summary-card--placeholder"><span>综合评分</span><strong>--</strong></article>
         <article class="summary-card summary-card--placeholder"><span>风险等级</span><strong>--</strong></article>
         <article class="summary-card summary-card--placeholder"><span>风险否决</span><strong>--</strong></article>
-        <article class="summary-card summary-card--placeholder"><span>分析周期</span><strong>--</strong></article>
         <article class="summary-card summary-card--placeholder"><span>收益风险比</span><strong>--</strong></article>
+        <article class="summary-card summary-card--placeholder"><span>学习型仓位</span><strong>--</strong></article>
         <article class="summary-card summary-card--placeholder"><span>均线结构</span><strong>--</strong></article>
         <article class="summary-card summary-card--placeholder"><span>数据可信度</span><strong>--</strong></article>
       `;
       const report = document.getElementById('report');
       report.className = 'report report--empty';
-      report.textContent = '输入数据后点击“开始分析”。分析结果只适合学习和辅助判断，不能替代真实行情、基本面研究和个人风险评估。';
+      report.innerHTML = `
+        <div class="empty-state" aria-hidden="true"><div class="empty-state__chart"><span></span><span></span><span></span><span></span></div></div>
+        <div><h3>等待生成分析报告</h3><p>填写左侧数据后点击“开始专业分析”。你也可以先点击“填入示例”快速体验。</p><p class="empty-note">分析结果仅用于学习与研究，不替代真实行情、基本面研究和个人风险评估。</p></div>
+      `;
       document.getElementById('analysisConfidence').textContent = '等待分析';
       document.getElementById('codeStatus').textContent = '仅检查格式，不验证股票真实性。';
       document.getElementById('codeStatus').className = 'inline-status';
