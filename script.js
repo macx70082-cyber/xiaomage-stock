@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  const VERSION = 'Stock AI V1.5 Ultimate Pro · Sprint 4.1';
+  const VERSION = 'Stock AI V1.5 Ultimate Pro · Sprint 4.2';
 
   const FIELD_LABELS = {
     price: '当前价格',
@@ -1275,8 +1275,12 @@
       const report = document.getElementById('report');
       report.className = 'report report--empty';
       report.innerHTML = `
-        <div class="empty-state" aria-hidden="true"><div class="empty-state__chart"><span></span><span></span><span></span><span></span></div></div>
-        <div><h3>等待生成分析报告</h3><p>填写左侧数据后点击“开始专业分析”。你也可以先点击“填入示例”快速体验。</p><p class="empty-note">分析结果仅用于学习与研究，不替代真实行情、基本面研究和个人风险评估。</p></div>
+        <div class="empty-state" aria-hidden="true">
+          <div class="empty-state__orb">
+            <svg viewBox="0 0 140 90"><path d="M8 72 C25 60, 35 70, 52 51 S78 48, 91 31 S113 38, 132 14" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"></path><circle cx="132" cy="14" r="5" fill="currentColor"></circle></svg>
+          </div>
+        </div>
+        <div class="empty-copy"><h3>准备好后，开始分析。</h3><p>填写左侧数据，或先使用示例快速体验。分析完成后，这里会展示结论、风险、评分与交易计划。</p><p class="empty-note">仅用于学习与研究，不替代真实行情、基本面研究和个人风险评估。</p></div>
       `;
       document.getElementById('analysisConfidence').textContent = '等待分析';
       document.getElementById('codeStatus').textContent = '仅检查格式，不验证股票真实性。';
@@ -1295,11 +1299,41 @@
     `).join('');
   }
 
+  function setupNavigation() {
+    const links = Array.from(document.querySelectorAll('.nav-pill'));
+    const sections = links
+      .map(link => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        links.forEach(item => item.classList.remove('nav-pill--active'));
+        link.classList.add('nav-pill--active');
+      });
+    });
+
+    if (!('IntersectionObserver' in window) || !sections.length) return;
+
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      links.forEach(link => {
+        const active = link.getAttribute('href') === `#${visible.target.id}`;
+        link.classList.toggle('nav-pill--active', active);
+      });
+    }, { rootMargin: '-18% 0px -65% 0px', threshold: [0.05, 0.25, 0.5] });
+
+    sections.forEach(section => observer.observe(section));
+  }
+
   function initializeBrowserApp() {
     const form = document.getElementById('stockForm');
     if (!form) return;
 
     renderCaseLibrary();
+    setupNavigation();
     form.addEventListener('submit', handleAnalyze);
     form.addEventListener('reset', resetView);
     document.getElementById('validateBtn').addEventListener('click', handleCodeValidation);
