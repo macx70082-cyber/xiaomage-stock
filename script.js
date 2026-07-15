@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  const VERSION = 'Stock AI V1.5 Ultimate Pro · Sprint 4.2';
+  const VERSION = 'Stock AI V1.5 Ultimate Pro · Sprint 4.2.1';
 
   const FIELD_LABELS = {
     price: '当前价格',
