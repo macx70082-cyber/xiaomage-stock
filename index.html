@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Stock AI V1.5 Ultimate Pro：不联网的股票分析学习工具。">
-  <title>Stock AI V1.5 Ultimate Pro</title>
+  <meta name="description" content="Stock AI V1.5 Ultimate Pro Sprint 4：分析周期、MA5/MA10短线结构与硬性风险否决。">
+  <title>Stock AI V1.5 Ultimate Pro · Sprint 4</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,13 +12,13 @@
 
   <header class="hero">
     <div class="hero__content">
-      <p class="eyebrow">Stock AI V1.5 Ultimate Pro</p>
+      <p class="eyebrow">Stock AI V1.5 Ultimate Pro · Sprint 4</p>
       <h1>职业交易员式股票分析助手</h1>
       <p class="subtitle">
-        当前为不联网版本。数据由你手动输入，系统只做规则化分析，不会验证实时行情，也不构成投资建议。
+        Sprint 4 强化分析周期、MA5/MA10短线结构、评分明细与硬性风险否决。当前仍为手动输入、不联网版本，不构成投资建议。
       </p>
     </div>
-    <div class="version-badge" aria-label="当前版本">V1.5 Ultimate Pro</div>
+    <div class="version-badge" aria-label="当前版本">Sprint 4</div>
   </header>
 
   <main id="mainContent" class="page-shell">
@@ -88,12 +88,29 @@
               <input id="ma60" name="ma60" type="number" min="0.0001" step="0.01" inputmode="decimal" required placeholder="22.30">
             </label>
           </div>
-          <p class="field-note">系统会自动识别多头排列、空头排列和混合排列，不会仅凭多头排列直接给出买入结论。</p>
+          <p class="field-note">MA5 和 MA10 已正式纳入分析。系统会识别短线强弱、均线间距、多头/空头/混合排列，但不会仅凭均线好看就给出积极结论。</p>
         </fieldset>
 
         <fieldset>
           <legend>成交量与近期状态</legend>
           <div class="form-grid form-grid--2">
+            <label for="analysisCycle">
+              分析周期
+              <select id="analysisCycle" name="analysisCycle">
+                <option value="short">短线：约 5–10 个交易日</option>
+                <option value="swing" selected>波段：约 2–8 周</option>
+                <option value="medium">中线：约 2–6 个月</option>
+              </select>
+            </label>
+            <label for="recentTrend">
+              近期趋势补充
+              <select id="recentTrend" name="recentTrend">
+                <option value="auto" selected>由均线结构自动判断</option>
+                <option value="up">手动选择：上涨趋势</option>
+                <option value="side">手动选择：震荡趋势</option>
+                <option value="down">手动选择：下跌趋势</option>
+              </select>
+            </label>
             <label for="currentVolume">
               当前成交量（可选）
               <input id="currentVolume" name="currentVolume" type="number" min="0" step="1" inputmode="numeric" placeholder="例如：1800000">
@@ -108,15 +125,6 @@
                 <option value="up">上涨</option>
                 <option value="flat" selected>震荡 / 变化不大</option>
                 <option value="down">下跌</option>
-              </select>
-            </label>
-            <label for="recentTrend">
-              近期趋势补充
-              <select id="recentTrend" name="recentTrend">
-                <option value="auto" selected>由均线结构自动判断</option>
-                <option value="up">手动选择：上涨趋势</option>
-                <option value="side">手动选择：震荡趋势</option>
-                <option value="down">手动选择：下跌趋势</option>
               </select>
             </label>
           </div>
@@ -198,7 +206,7 @@
   </section>
 
   <footer class="site-footer">
-    <p>Stock AI V1.5 Ultimate Pro · 手动输入数据版</p>
+    <p>Stock AI V1.5 Ultimate Pro · Sprint 4 · 手动输入数据版</p>
     <p>本工具仅用于学习和研究，不构成投资建议。任何交易决策和损失均由使用者自行承担。</p>
   </footer>
 

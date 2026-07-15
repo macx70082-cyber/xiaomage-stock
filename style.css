@@ -139,6 +139,137 @@ button {
   padding: 22px;
 }
 
+.score-ledger {
+  display: grid;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.score-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-soft);
+}
+
+.score-row strong {
+  flex: 0 0 auto;
+}
+
+.score-row--subtotal {
+  border-color: #c8d6eb;
+  background: var(--primary-soft);
+}
+
+.score-row--deduction {
+  border-color: #efc0ba;
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.score-row--total {
+  border-color: #9db8e5;
+  background: #dfeaff;
+  color: var(--primary-dark);
+  font-size: 1.02rem;
+}
+
+.veto-list,
+.decision-tree {
+  display: grid;
+  gap: 9px;
+}
+
+.veto-item,
+.decision-step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 11px;
+  align-items: flex-start;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-soft);
+}
+
+.veto-item > span,
+.decision-step > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  min-height: 27px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.veto-item p,
+.decision-step p {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.veto-item--passed > span {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.veto-item--triggered {
+  border-color: #efc0ba;
+  background: var(--danger-soft);
+}
+
+.veto-item--triggered > span {
+  background: var(--danger);
+  color: #ffffff;
+}
+
+.decision-step > span {
+  min-width: 29px;
+  border-radius: 9px;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+}
+
+.sprint-note {
+  margin-top: 8px;
+  padding: 12px 14px;
+  border: 1px solid #c7d7ef;
+  border-radius: 12px;
+  background: var(--primary-soft);
+  color: #27415f;
+  font-size: 0.84rem;
+}
+
+.plan-panel {
+  margin-top: 10px;
+  padding: 14px;
+  border: 1px solid #c7d7ef;
+  border-radius: 14px;
+  background: #f5f9ff;
+}
+
+.plan-panel h4 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.plan-panel ul {
+  margin: 8px 0;
+  padding-left: 1.25rem;
+}
+
+.plan-panel li + li {
+  margin-top: 6px;
+}
+
 .section-heading {
   display: flex;
   align-items: flex-start;
